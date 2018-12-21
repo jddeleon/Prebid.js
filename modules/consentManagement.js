@@ -187,7 +187,7 @@ function lookupIabConsent(cmpSuccess, cmpError, hookConfig) {
  * @param {object} reqBidsConfigObj required; This is the same param that's used in pbjs.requestBids.
  * @param {function} fn required; The next function in the chain, used by hook.js
  */
-export function requestBidsHook(reqBidsConfigObj, fn) {
+export function requestBidsHook(fn, reqBidsConfigObj) {
   // preserves all module related variables for the current auction instance (used primiarily for concurrent auctions)
   const hookConfig = {
     context: this,
@@ -371,6 +371,6 @@ export function setConfig(config) {
       utils.logError(`consentManagement config with cmpApi: 'static' did not specify consentData. No consents will be available to adapters.`);
     }
   }
-  $$PREBID_GLOBAL$$.requestBids.addHook(requestBidsHook, 50);
+  $$PREBID_GLOBAL$$.requestBids.before(requestBidsHook, 50);
 }
 config.getConfig('consentManagement', config => setConfig(config.consentManagement));
